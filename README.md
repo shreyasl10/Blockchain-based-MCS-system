@@ -15,15 +15,15 @@ To make sure that the worker remains of the chain during the transaction process
 ## Screenshots
 
 ### Data in API
-[!Screenshot](screenshots/api.png)
+![Screenshot](screenshots/api.png)
 
 ### Requester makes request for data
-[!Screenshot](screenshots/req1.png)
+![Screenshot](screenshots/req1.png)
 
 ### Confirmation of transaction by Metamask
-[!Screenshot](screenshots/req2.png)
+![Screenshot](screenshots/req2.png)
 
 ### Data received upon successful transaction
-[!Screenshot](screenshots/req3.png)
+![Screenshot](screenshots/req3.png)
 
 At an average, the entire transaction takes 55 seconds.
