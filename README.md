@@ -4,6 +4,9 @@ This is a decentralized blockchain based Mobile crowdsensing system that works o
 
 To make sure that the worker remains of the chain during the transaction process, blockchain oracles are employed that push data from an external source , into the chain. It does this by extracting data from a public API where the worker data is stored and pushes it to the public chain. We have gone with a decentralized Oracle framework, [Chainlink](https://chain.link). This enables the system to be a lot more privacy preserving and secure when compared to a conventional blockchain based system. Further information regarding the overall working of Chainlink can be found [here](https://www.gemini.com/cryptopedia/what-is-chainlink-and-how-does-it-work).
 
+The requester portal and client API are hosted on Heroku and can be found at https://requestermcs.herokuapp.com and https://mcsclient.herokuapp.com respectively.
+
+
 ## Components
 
 <ins>Client</ins>: This is the public API written on Flask . It works on a context-aware method where data is fed automatically into the API based on a particular context, in this case, time interval. The API is also made secure by safely removing the data present in it after a particular time interval to make the API inaccessible to anyone until the next stream of data arrives.
