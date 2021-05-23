@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requester Portal</title>
+	<style>
+		.box{
+			margin-top: 10%;
+			display: flex;
+			height: 60vh;
+			width: 100vh;
+			justify-self: center;
+			flex-flow: column;
+			background:linear-gradient(to right,rgb(255,210,13),rgb(123,13,52));
+		}
+		input{
+			width:50%;
+			height:5%;
+			display: flex;
+			justify-self: center;
+			align-self: center;
+
+		}
+		label{
+			font-size: 1.5rem;
+			color: black;
+			font-weight: bold;
+			text-decoration: none;
+			padding-top: 2%;
+		}
+		.loader {
+  border: 8px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 8px solid #3498db;
+  width: 90px;
+  height: 90px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+  margin-top: 5%;
+  opacity:0;
+  
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+	</style>
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body style="background-color: rgba(128, 125, 117, 0.219);">
+	
+    <script>
+			function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+        	window.onload = function(){
+            if (typeof web3 === 'undefined') 
+            {
+                document.getElementById('result').innerHTML = 'You need <a href=”https://metamask.io/">MetaMask</a> browser plugin to run this example'
+            }
+            
+        }
+        function getvalue() {
+			var starttime=new Date().getTime();
+			document.getElementsByClassName('loader')[0].style.opacity=1;
+			document.getElementsByClassName('hide')[0].style.opacity=1;
+            try{
+                var abi=[
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "bytes32",
+				"name": "id",
+				"type": "bytes32"
+			}
+		],
+		"name": "ChainlinkCancelled",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "bytes32",
+				"name": "id",
+				"type": "bytes32"
+			}
+		],
+		"name": "ChainlinkFulfilled",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "bytes32",
+				"name": "id",
+				"type": "bytes32"
+			}
+		],
+		"name": "ChainlinkRequested",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "display",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "output",
+				"type": "string"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "_requestId",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "_message",
+				"type": "bytes32"
+			}
+		],
+		"name": "fulfill",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "message",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "requestUserData",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "requestId",
+				"type": "bytes32"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]
+function display(starttime)
+				{
+					var x=document.querySelectorAll(".output");
+					for(var i=0;i<x.length;i++)
+					{
+						x[i].style.display="block";
+					}
+				 	myfunction.message.call({from:fromaddress},function(err,res){
+					output=res;
+					document.getElementById("output").innerHTML = output;
+					var endtime=new Date().getTime();
+					var diff=(endtime-starttime)/1000
+					console.log(diff)
+					document.getElementsByClassName('loader')[0].remove();
+					document.getElementsByClassName('hide')[0].remove();
+					document.getElementById("time").innerHTML="Data received in "+diff+" seconds"
+					document.getElementById("time").style.opacity=1
+					
+
+				});
+				}
+		var output;
+        var contractaddress = '0xe4D07E07763Ac39D48875c7cc7FDe702456bcAF9';
+        var myAbi = web3.eth.contract(abi);
+        var myfunction = myAbi.at(contractaddress);
+		var fromaddress = document.getElementById('block').value;
+			myfunction.requestUserData.sendTransaction({from:fromaddress,gas:3000000 },function(error,result)
+		{
+			sleep(45000).then(() => { display(starttime); });
+
+		});
+    }
+    catch (err) {
+        document.getElementById("output").innerHTML = err;
+    }
+}
+    </script>
+	<center>
+		<div class="card text-center" style="margin-top: 10%; width:110vh; border-radius:10px">
+			<div class="card-header">
+			  Requester Portal
+			</div>
+			<div class="card-body">
+			  <h5 class="card-title">Enter your block address</h5>
+			  <center><input type="text" name="block" id="block"></center>
+			  <button onclick="getvalue();" class="btn btn-primary mt-4">Get Data</button>
+			  <center> <div class="loader"></div>
+				<p class="hide" style="opacity: 0; margin-top:2%">Please wait... Fetching Data</p>
+				</center>
+			  
+			  <center>
+				<label for="output" class="output" style="display:none;">Data from Worker</label>
+				<div class="output" id="output" style="margin-top:1%;
+				height: 20vh;
+				width: 70vh;
+				border: 1px solid grey;
+				border-radius: 10px;
+				display: none;
+				justify-content:center;
+				align-items:center;
+				"></div>
+			</center>
+			</div>
+			<div class="card-footer text-muted" >
+			  <p style="opacity: 0;" id="time"></p>
+			</div>
+		  </div>
+	</center>
+    
+	<script
+    src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"
+  ></script>
+</body>
+</html>
